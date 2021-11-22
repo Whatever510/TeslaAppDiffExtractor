@@ -4,10 +4,9 @@ Python program that finds the differences between two versions of the Tesla App.
 When Tesla updates the app a lot of changes happen unnoticed. This program finds all the added and deleted files, API endpoints as well as the added and deleted text resources.
 
 ## Requirements
-To use this program, please install the following packages with the following commands:
+To use this program, please install the required packages with the following commands:
 
 ```
-pip install numpy
 pip install tk
 ```
 
@@ -22,7 +21,7 @@ python gui.py
 
 ## Output
 The program will create two directories.
-- The **unzipped/** directory contains the unzipped apk data. This directory can be deleted after the programs finishes. To inspect the added files just follow the paths specified in **PathDifferences.txt**
+- The **unzipped/** directory contains the unzipped apk data. This directory can be deleted after the program finishes. To inspect the added files follow the paths specified in **PathDifferences.txt**
 
 - The **result** directory contains three txt files:
     - **ApiDifferences.txt** contains all changes to the api calls.+
