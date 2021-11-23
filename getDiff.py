@@ -5,7 +5,7 @@ import zipfile
 
 
 def setup():
-    if not os.path.exists("results"):
+    if not os.path.exists("result"):
         os.mkdir("result")
 
     if not os.path.exists("unzipped"):
@@ -116,6 +116,8 @@ def create_output_file(deleted, added):
         out_file.write("This File contains the added and deleted Files entrys\n\n")
         out_file.write("DELETED\n")
         for filename in deleted:
+            if ".git" in filename:
+                continue
             out_file.write("- " + filename+'\n')
         out_file.write(100*'#'+'\n\n')
         out_file.write("ADDED\n")
@@ -209,7 +211,7 @@ def find(name, path):
             return os.path.join(root, name)
 
 
-def main(zip_file_old = "", zip_file_new = ""):
+def main(zip_file_old = "", zip_file_new = "", ios = False):
     working_dir = os.getcwd().replace('\\','/')
 
     setup()
@@ -224,8 +226,13 @@ def main(zip_file_old = "", zip_file_new = ""):
     zip_file_name_new = os.path.basename(os.path.normpath(zip_file_new))
 
     # Extract the version number from the APK name
-    version_number_old = zip_file_name_old.split("_")[1].split("-")[0]
-    version_number_new = zip_file_name_new.split("_")[1].split("-")[0]
+    if not ios:
+        version_number_old = zip_file_name_old.split("_")[1].split("-")[0]
+        version_number_new = zip_file_name_new.split("_")[1].split("-")[0]
+    else:
+        version_number_old = (zip_file_name_old.split(".")[0])[-3:]
+        version_number_new = (zip_file_name_new.split(".")[0])[-3:]
+
 
     print("[INFO] Unzipping files...")
     unzip(zip_file_old, zip_file_new,version_number_old, version_number_new)
@@ -234,13 +241,19 @@ def main(zip_file_old = "", zip_file_new = ""):
     base_dir_new = working_dir + "/unzipped/" + version_number_new
 
     print(base_dir_old)
+    if not ios:
+        locales_file_old = find("app_i18n_locales_en.json", base_dir_old).replace('\\','/')
+        locales_file_new = find("app_i18n_locales_en.json", base_dir_new).replace('\\','/')
+    else:
+        locales_file_old = find("en.json", base_dir_old).replace('\\','/')
+        locales_file_new = find("en.json", base_dir_new).replace('\\','/')
 
-    locales_file_old = find("app_i18n_locales_en.json", base_dir_old).replace('\\','/')
-    locales_file_new = find("app_i18n_locales_en.json", base_dir_new).replace('\\','/')
-
-    owners_api_file_old = find("env_ownerapi_endpoints.json", base_dir_old).replace('\\','/')
-    owners_api_file_new = find("env_ownerapi_endpoints.json", base_dir_new).replace('\\','/')
-
+    if not ios:
+        owners_api_file_old = find("env_ownerapi_endpoints.json", base_dir_old).replace('\\','/')
+        owners_api_file_new = find("env_ownerapi_endpoints.json", base_dir_new).replace('\\','/')
+    else:
+        owners_api_file_old = find("ownerapi_endpoints.json", base_dir_old).replace('\\','/')
+        owners_api_file_new = find("ownerapi_endpoints.json", base_dir_new).replace('\\','/')
 
     #path1 = "D:/Programming/TeslaApp/4.2.3/Android/"
     #path2 = "D:/Programming/TeslaApp/4.3.0/Android/"

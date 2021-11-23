@@ -11,13 +11,29 @@ pip install tk
 ```
 
 ## Usage
-Download the APK File (not the Bundle File) from [APK Mirror](https://www.apkmirror.com/) and save it on your PC. The tesla apk can be found here: [Tesla APK](https://www.apkmirror.com/apk/tesla-motors-inc/tesla-motors/). Do not unpack the file.
 
-Then start the GUI and select the APK File of the older and newer version by running:
+The program works with android and iOS files. Please make sure to check the checkbox if the provided file is an iOS app. If an android apk file is used do **NOT** check the box, otherwise the program will crash.
+
+To start the gui run:
+
+
 
 ```
 python gui.py
 ```
+
+### For Android
+Download the APK File (not the Bundle File) from [APK Mirror](https://www.apkmirror.com/) and save it on your PC. The tesla apk can be found here: [Tesla APK](https://www.apkmirror.com/apk/tesla-motors-inc/tesla-motors/). Do not unpack the file.
+
+
+
+
+### For iOS
+Download the app file and convert it to a .zip file. This can be done by unzipping the file with [WinRAR](https://www.win-rar.com/start.html?&L=1) and zipping it again.
+Select the iOS Checkbox at the bottom.
+
+### Starting the Program
+After the files have been selected and the checkbox was set according to the used app files press "Start" to initiate the program.
 
 ## Output
 The program will create two directories.

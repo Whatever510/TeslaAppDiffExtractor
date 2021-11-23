@@ -10,8 +10,7 @@ class App:
     def __init__(self, root):
         #setting title
         root.title("Tesla App Change Detector")
-        open_filename_new = ""
-        open_filename_old = ""
+        self.ios = False
 
         #setting window size
         width=538
@@ -38,7 +37,7 @@ class App:
         self.GButton_cancel["font"] = ft
         self.GButton_cancel["fg"] = "#000000"
         self.GButton_cancel["justify"] = "center"
-        self.GButton_cancel["text"] = "Cancel"
+        self.GButton_cancel["text"] = "Exit"
         self.GButton_cancel.place(x=310,y=260,width=130,height=30)
         self.GButton_cancel["command"] = self.GButton_cancel_command
 
@@ -94,11 +93,24 @@ class App:
         self.GLabel_new["text"] = ""
         self.GLabel_new.place(x=120,y=180,width=370,height=25)
 
+        self.GCheckBox_ios=tk.Checkbutton(root)
+        ft = tkFont.Font(family='Times',size=10)
+        self.GCheckBox_ios["font"] = ft
+        self.GCheckBox_ios["fg"] = "#333333"
+        self.GCheckBox_ios["justify"] = "center"
+        self.GCheckBox_ios["text"] = "Select if the file is an iOS App "
+        self.GCheckBox_ios.place(x=160,y=220,width=190,height=30)
+        self.GCheckBox_ios["offvalue"] = False
+        self.GCheckBox_ios["onvalue"] = True
+        self.GCheckBox_ios["command"] = self.GCheckBox_ios_command
+
+
+
     def GButton_start_command(self):
         if (self.GLabel_new["text"] == "" or self.GLabel_old["text"] == ""):
             tk.messagebox.showwarning(title="No Files selected", message="Please select the directory for the old and the new version")
         else:
-            getDiff.main(self.GLabel_old["text"], self.GLabel_new["text"])
+            getDiff.main(self.GLabel_old["text"], self.GLabel_new["text"], self.ios)
 
 
     def GButton_cancel_command(self):
@@ -110,12 +122,19 @@ class App:
     def GButton_open_new_command(self):
         self.GLabel_new["text"] = self.browseFiles()
 
+    def GCheckBox_ios_command(self):
+        if self.ios == False:
+            self.ios = True
+        else:
+            self.ios = False
+        print(self.ios)
+
     def quit(self):
         self.root.destroy()
 
     def browseFiles(self):
         filename = filedialog.askopenfilename()
-        print(filename)
+        #print(filename)
         return filename
 
 
