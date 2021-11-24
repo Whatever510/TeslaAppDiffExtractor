@@ -239,31 +239,40 @@ def main(zip_file_old = "", zip_file_new = "", ios = False):
 
     base_dir_old = working_dir + "/unzipped/" + version_number_old
     base_dir_new = working_dir + "/unzipped/" + version_number_new
-
-    print(base_dir_old)
-    if not ios:
-        locales_file_old = find("app_i18n_locales_en.json", base_dir_old).replace('\\','/')
-        locales_file_new = find("app_i18n_locales_en.json", base_dir_new).replace('\\','/')
-    else:
-        locales_file_old = find("en.json", base_dir_old).replace('\\','/')
-        locales_file_new = find("en.json", base_dir_new).replace('\\','/')
+    skip_locales = False
+    skip_api = False
 
     if not ios:
-        owners_api_file_old = find("env_ownerapi_endpoints.json", base_dir_old).replace('\\','/')
-        owners_api_file_new = find("env_ownerapi_endpoints.json", base_dir_new).replace('\\','/')
+        locales_file_old = find("app_i18n_locales_en.json", base_dir_old)
+        locales_file_new = find("app_i18n_locales_en.json", base_dir_new)
     else:
-        owners_api_file_old = find("ownerapi_endpoints.json", base_dir_old).replace('\\','/')
-        owners_api_file_new = find("ownerapi_endpoints.json", base_dir_new).replace('\\','/')
+        locales_file_old = find("en.json", base_dir_old)
+        locales_file_new = find("en.json", base_dir_new)
 
-    #path1 = "D:/Programming/TeslaApp/4.2.3/Android/"
-    #path2 = "D:/Programming/TeslaApp/4.3.0/Android/"
-
-    #locales_file_old = "D:/Programming/TeslaApp/4.2.3/Android/res/raw/app_i18n_locales_en.json"
-    #locales_file_new = "D:/Programming/TeslaApp/4.3.0/Android/res/raw/app_i18n_locales_en.json"
+    if not ios:
+        owners_api_file_old = find("env_ownerapi_endpoints.json", base_dir_old)
+        owners_api_file_new = find("env_ownerapi_endpoints.json", base_dir_new)
 
 
-    #path_to_owner_api_old = "D:/Programming/TeslaApp/4.2.3/Android/res/raw/env_ownerapi_endpoints.json"
-    #path_to_owner_api_new = "D:/Programming/TeslaApp/4.3.0/Android/res/raw/env_ownerapi_endpoints.json"
+    else:
+        owners_api_file_old = find("ownerapi_endpoints.json", base_dir_old)
+        owners_api_file_new = find("ownerapi_endpoints.json", base_dir_new)
+
+    if locales_file_new is None or locales_file_old is None:
+        skip_locales = True
+        print("[WARNING] Skipping locales file, file not found")
+    else:
+        locales_file_old = locales_file_old.replace('\\','/')
+        locales_file_new = locales_file_new.replace('\\','/')
+
+    if owners_api_file_new is None or owners_api_file_old is None:
+        skip_api = True
+        print("[WARNING] Skipping owners API file, file not found")
+    else:
+        owners_api_file_new.replace('\\','/')
+        owners_api_file_old.replace('\\', '/')
+
+
     print("[INFO] Extracting all the files of the old and new version")
     old_files = get_list_of_files(base_dir_old)
     new_files = get_list_of_files(base_dir_new)
@@ -274,12 +283,14 @@ def main(zip_file_old = "", zip_file_new = "", ios = False):
     create_output_file(deleted, added)
     print("[INFO] Differences saved to PathDifferences.txt")
 
-    print("[INFO] Extracting String differences")
-    deleted_strings, added_strings = get_locales_differneces(locales_file_old, locales_file_new)
+    if not skip_locales:
+        print("[INFO] Extracting String differences")
+        deleted_strings, added_strings = get_locales_differneces(locales_file_old, locales_file_new)
 
-    save_strings(deleted_strings, added_strings)
-    print("[INFO] Saved String differences to StringDifferences.txt")
+        save_strings(deleted_strings, added_strings)
+        print("[INFO] Saved String differences to StringDifferences.txt")
 
-    print("[INFO] Extracting API differences")
-    get_api_differences(owners_api_file_old, owners_api_file_new)
-    print("[INFO] Saved API Differences to ApiDifferences.txt")
+    if not skip_api:
+        print("[INFO] Extracting API differences")
+        get_api_differences(owners_api_file_old, owners_api_file_new)
+        print("[INFO] Saved API Differences to ApiDifferences.txt")

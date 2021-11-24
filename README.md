@@ -14,6 +14,7 @@ pip install tk
 
 The program works with android and iOS files. Please make sure to check the checkbox if the provided file is an iOS app. If an android apk file is used do **NOT** check the box, otherwise the program will crash.
 
+Please make sure to use an app version > 4.0.0
 To start the gui run:
 
 
