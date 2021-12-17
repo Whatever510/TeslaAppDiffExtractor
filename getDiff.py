@@ -112,7 +112,7 @@ Create the output file containing the paths to all the added and deleted files
 """
 def create_output_file(deleted, added):
 
-    with open("result/PathDifferences.txt","w") as out_file:
+    with open("result/PathDifferences.diff","w") as out_file:
         out_file.write("This File contains the added and deleted Files entrys\n\n")
         out_file.write("DELETED\n")
         for filename in deleted:
@@ -158,7 +158,7 @@ Save the added and deleted string ressources to a txt file.
 """
 def save_strings(deleted_strings, added_strings):
 
-    with open("result/StringDifferences.txt","w") as result_file:
+    with open("result/StringDifferences.diff","w") as result_file:
         result_file.write("This File contains the added and deleted String entrys\n\n")
         result_file.write("DELETED\n")
         for line in deleted_strings:
@@ -187,7 +187,7 @@ def get_api_differences(api_old, api_new):
     keys_old = api_list_old.keys()
     keys_new = api_list_new.keys()
 
-    with open("result/ApiDifferences.txt","w") as api_file:
+    with open("result/ApiDifferences.diff","w") as api_file:
         api_file.write("This File contains the added and deleted API entrys\n\n")
         api_file.write("DELETED\n")
         for name in keys_old:
@@ -281,16 +281,16 @@ def main(zip_file_old = "", zip_file_new = "", ios = False):
     deleted, added = get_differences(old_files, new_files, base_dir_old, base_dir_new)
 
     create_output_file(deleted, added)
-    print("[INFO] Differences saved to PathDifferences.txt")
+    print("[INFO] Differences saved to PathDifferences.diff")
 
     if not skip_locales:
         print("[INFO] Extracting String differences")
         deleted_strings, added_strings = get_locales_differneces(locales_file_old, locales_file_new)
 
         save_strings(deleted_strings, added_strings)
-        print("[INFO] Saved String differences to StringDifferences.txt")
+        print("[INFO] Saved String differences to StringDifferences.diff")
 
     if not skip_api:
         print("[INFO] Extracting API differences")
         get_api_differences(owners_api_file_old, owners_api_file_new)
-        print("[INFO] Saved API Differences to ApiDifferences.txt")
+        print("[INFO] Saved API Differences to ApiDifferences.diff")

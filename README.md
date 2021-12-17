@@ -38,9 +38,9 @@ After the files have been selected and the checkbox was set according to the use
 
 ## Output
 The program will create two directories.
-- The **unzipped/** directory contains the unzipped apk data. This directory can be deleted after the program finishes. To inspect the added files follow the paths specified in **PathDifferences.txt**
+- The **unzipped/** directory contains the unzipped apk data. This directory can be deleted after the program finishes. To inspect the added files follow the paths specified in **PathDifferences.diff**
 
 - The **result** directory contains three txt files:
-    - **ApiDifferences.txt** contains all changes to the api calls.+
-    - **StringDifferences.txt** contains all the added and deleted String resources between the two versions
-    - **PathDifferences** contains the paths to all added and deleted files. To inspect a certain element follow the path mentioned in the file. The unzipped apks can be found in the **unzipped/** directory. To see deleted files check in the older version, to see newly added file check the newer version.
+    - **ApiDifferences.diff** contains all changes to the api calls.+
+    - **StringDifferences.diff** contains all the added and deleted String resources between the two versions
+    - **PathDifferences.diff** contains the paths to all added and deleted files. To inspect a certain element follow the path mentioned in the file. The unzipped apks can be found in the **unzipped/** directory. To see deleted files check in the older version, to see newly added file check the newer version.
